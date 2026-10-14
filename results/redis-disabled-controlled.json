@@ -1,0 +1,147 @@
+{
+    "root_group": {
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "redirect returns 302": {
+                    "path": "::redirect returns 302",
+                    "id": "4ae791d61506238cdc38895e21d19d84",
+                    "passes": 8002,
+                    "fails": 0,
+                    "name": "redirect returns 302"
+                },
+                "Location header is correct": {
+                    "fails": 0,
+                    "name": "Location header is correct",
+                    "path": "::Location header is correct",
+                    "id": "b6c7df1f7b3645cc935d3ac989d8ccb9",
+                    "passes": 8002
+                }
+            },
+        "name": ""
+    },
+    "metrics": {
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 8002,
+            "thresholds": {
+                "rate<0.01": false
+            },
+            "value": 0
+        },
+        "http_req_duration{expected_response:true}": {
+            "med": 49.148300000000006,
+            "max": 837.7312,
+            "p(90)": 174.94616000000008,
+            "p(95)": 225.84073499999997,
+            "avg": 73.75760576105996,
+            "min": 2.6904
+        },
+        "http_req_connecting": {
+            "avg": 0.0073637090727318175,
+            "min": 0,
+            "med": 0,
+            "max": 13.5645,
+            "p(90)": 0,
+            "p(95)": 0
+        },
+        "checks": {
+            "passes": 16004,
+            "fails": 0,
+            "value": 1
+        },
+        "iteration_duration": {
+            "avg": 176.61876560859727,
+            "min": 103.0333,
+            "med": 151.62079999999997,
+            "max": 938.1539,
+            "p(90)": 278.66115,
+            "p(95)": 331.358885
+        },
+        "http_reqs": {
+            "count": 8002,
+            "rate": 123.09436535419529
+        },
+        "data_sent": {
+            "count": 624156,
+            "rate": 9601.360497627233
+        },
+        "http_req_blocked": {
+            "med": 0,
+            "max": 48.1134,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.02181312171957011,
+            "min": 0
+        },
+        "http_req_sending": {
+            "min": 0,
+            "med": 0,
+            "max": 9.0018,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.019533091727068227
+        },
+        "http_req_tls_handshaking": {
+            "med": 0,
+            "max": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0
+        },
+        "vus": {
+            "value": 1,
+            "min": 1,
+            "max": 49
+        },
+        "redirect_failures": {
+            "count": 0,
+            "rate": 0,
+            "thresholds": {
+                "count==0": false
+            }
+        },
+        "data_received": {
+            "rate": 125310.0639305708,
+            "count": 8146036
+        },
+        "iterations": {
+            "count": 8002,
+            "rate": 123.09436535419529
+        },
+        "vus_max": {
+            "value": 50,
+            "min": 50,
+            "max": 50
+        },
+        "http_req_duration": {
+            "min": 2.6904,
+            "med": 49.148300000000006,
+            "max": 837.7312,
+            "p(90)": 174.94616000000008,
+            "p(95)": 225.84073499999997,
+            "avg": 73.75760576105996,
+            "thresholds": {
+                "p(95)<500": false
+            }
+        },
+        "http_req_waiting": {
+            "med": 48.96655,
+            "max": 837.666,
+            "p(90)": 174.75997000000007,
+            "p(95)": 225.84073499999997,
+            "avg": 73.54559280179959,
+            "min": 1.977
+        },
+        "http_req_receiving": {
+            "avg": 0.19247986753311644,
+            "min": 0,
+            "med": 0,
+            "max": 43.1932,
+            "p(90)": 0.5813000000000006,
+            "p(95)": 0.999695
+        }
+    }
+}
