@@ -18,8 +18,8 @@ export const accessCookieOptions = {
 
 export const refreshCookieOptions = {
   httpOnly: true,
-  secure: isProduction,
-  sameSite: "lax",
+  secure: true,
+  sameSite: "none",
   maxAge: 1000 * 60 * 60 * 24 * 7,
   path: "/api/auth",
 };
