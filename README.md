@@ -128,7 +128,11 @@ Expected response:
 
 ## Link Management API
 
-All link-management endpoints require authentication and operate on URLs owned by the current user.
+### Authentication and Access
+
+- **Create (`POST /api/create`, `POST /api/create/custom`):** Authentication is optional. Anonymous users can create links; authenticated users can associate links with their accounts.
+- **Redirect (`GET /:id`):** Public. Anyone with a valid short URL can access its destination.
+- **List, edit, and delete:** Require authentication and should operate only on URLs owned by the authenticated user.
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -290,3 +294,5 @@ Raw k6 summaries are saved under `results/` for reference. Do not commit secrets
 ## Deployment
 
 Deployment and CI/CD are future improvements. Before production deployment, configure production MongoDB and Redis URLs, unique JWT secrets, `APP_URL`, `FRONTEND_URL`, CORS, secure cookie settings, and HTTPS.
+
+.
