@@ -170,6 +170,16 @@ To remove a link's expiration, send `"expires_at": null`. New expiration timesta
 - Redis failures fall back to MongoDB so ordinary redirects can continue.
 - The MongoDB TTL index removes expired documents asynchronously; the redirect handler also checks expiration directly.
 
+### Design Decisions
+
+- Negative caching: Unknown slugs are cached for 30 seconds to reduce repeated MongoDB lookups for invalid URLs.
+
+- Fail-closed URL safety checks: When a required safety or reputation check cannot be completed, link creation is rejected rather than proceeding without the check.
+
+- Expiration-aware cache TTL: A cached redirect must not outlive its link's expiration time, preventing stale cache entries from bypassing expiration.
+
+- Redis and MongoDB responsibilities: Redis accelerates repeated redirects; MongoDB remains the persistent store for URL records and metadata.
+
 ### Disabling Redis for Benchmarks
 
 The Docker Compose configuration supports the `DISABLE_REDIS_CACHE` environment variable.
