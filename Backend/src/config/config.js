@@ -10,8 +10,8 @@ const isProduction = process.env.NODE_ENV === "production";
 
 export const accessCookieOptions = {
   httpOnly: true,
-  secure: isProduction,
-  sameSite: "lax",
+  secure: true,
+  sameSite: "none",
   maxAge: 1000 * 60 * 15,
   path: "/",
 };
