@@ -282,48 +282,47 @@ Use the same `BASE_URL`, `SLUG`, k6 script, workload, machine, and service confi
 
 **Environment:** Local Docker Compose setup, with the backend, MongoDB, and Redis running in containers.
 
-**Workload:** Up to 50 virtual users, approximately 65 seconds per run, redirecting to `https://example.com/`.
+**Workload:** 5 virtual users over 30 seconds, with a 1-second pause between iterations, redirecting to a locally configured short URL.
 
 | Metric | Redis Enabled | Redis Disabled |
 |---|---:|---:|
-| Completed requests | 10,445 | 8,002 |
-| Throughput | 160.43 req/s | 123.09 req/s |
-| Average latency | 31.20 ms | 73.75 ms |
-| Median latency | 18.61 ms | 49.14 ms |
-| p95 latency | 105.92 ms | 225.84 ms |
+| Completed requests | 150 | 149 |
+| Throughput | 4.93 req/s | 4.82 req/s |
+| Average latency | 9.31 ms | 22.85 ms |
+| Median latency | 5.57 ms | 9.00 ms |
+| p90 latency | 14.32 ms | 65.47 ms |
+| p95 latency | 27.44 ms | 82.30 ms |
+| Maximum latency | 187.89 ms | 254.99 ms |
 | HTTP failure rate | 0% | 0% |
 | Redirect checks passed | 100% | 100% |
 
-redis enabled:
+**Redis Enabled**
+
 <p align="center">
   <img src="assets/redis_enabled.png"
-       alt="URL Shortener Dashboard"
+       alt="Grafana k6 benchmark with Redis caching enabled"
        width="850">
 </p>
-redis disabled:
+
+**Redis Disabled**
+
 <p align="center">
   <img src="assets/redis_disabled.png"
-       alt="URL Shortener Dashboard"
+       alt="Grafana k6 benchmark with Redis caching disabled"
        width="850">
 </p>
 
 ### Observed Results
 
-- Redis-enabled redirects had **57.7% lower average latency**.
-- p95 latency was **53.1% lower** with Redis enabled.
-- Observed throughput was **30.3% higher** with Redis enabled.
-- Both runs completed with zero HTTP failures and zero redirect-check failures.
+- Redis-enabled redirects had **59.3% lower average latency**.
+- p95 latency was **66.7% lower** with Redis enabled.
+- Both configurations completed with zero HTTP request failures and 100% successful checks.
+- Backend logs showed repeated Redis cache hits when caching was enabled.
+- Throughput was similar in both runs, partly because the workload included a 1-second pause between iterations.
 
-These are preliminary results from one run per configuration. They suggest Redis improves redirect performance in this local environment, but repeated runs are needed to establish how consistently the improvement occurs. Results may differ on other hardware and in production.
+These results come from a small local benchmark using 5 virtual users over 30 seconds. They indicate that Redis caching reduced redirect latency under these test conditions, but do not establish production performance. Additional repeated runs would help assess consistency, and individual requests can still experience latency spikes.
 
 Raw k6 summaries are saved under `results/` for reference. Do not commit secrets or machine-specific artifacts unnecessarily.
-
-log showing hitting of cache:
-<p align="center">
-  <img src="assets/chache hit.png"
-       alt="URL Shortener Dashboard"
-       width="850">
-</p>
 
 ## Security Notes
 
