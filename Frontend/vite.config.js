@@ -8,4 +8,7 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  server: {
+    allowedHosts: ['url-shortener-1-9ok7.onrender.com'],
+  }
 })
