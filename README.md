@@ -1,6 +1,11 @@
 # URL Shortener
 
 A full-stack URL shortener built with React, Express, MongoDB, and Redis. It supports authenticated link management, custom slugs, expiration, redirect caching, and URL safety checks.
+<p align="center">
+  <img src="assets/dashboard.png"
+       alt="URL Shortener Dashboard"
+       width="850">
+</p>
 
 ## Features
 
@@ -170,6 +175,7 @@ To remove a link's expiration, send `"expires_at": null`. New expiration timesta
 - Redis failures fall back to MongoDB so ordinary redirects can continue.
 - The MongoDB TTL index removes expired documents asynchronously; the redirect handler also checks expiration directly.
 
+
 ### Design Decisions
 
 - Negative caching: Unknown slugs are cached for 30 seconds to reduce repeated MongoDB lookups for invalid URLs.
@@ -231,6 +237,11 @@ The current workload ramps up to 50 virtual users over approximately 65 seconds.
 - HTTP failure rate below 1%
 - p95 response latency below 500 ms
 - Zero redirect-check failures
+<p align="center">
+  <img src="assets/k6.png"
+       alt="URL Shortener Dashboard"
+       width="850">
+</p>
 
 ### Run the Benchmark
 
@@ -254,6 +265,7 @@ docker compose up -d --force-recreate backend
 
 k6 run --summary-export=results/redis-enabled-controlled.json .\loadtest\redirect.js
 ```
+
 
 With Redis disabled:
 
@@ -282,6 +294,19 @@ Use the same `BASE_URL`, `SLUG`, k6 script, workload, machine, and service confi
 | HTTP failure rate | 0% | 0% |
 | Redirect checks passed | 100% | 100% |
 
+redis enabled:
+<p align="center">
+  <img src="assets/redis_enabled.png"
+       alt="URL Shortener Dashboard"
+       width="850">
+</p>
+redis disabled:
+<p align="center">
+  <img src="assets/redis_disabled.png"
+       alt="URL Shortener Dashboard"
+       width="850">
+</p>
+
 ### Observed Results
 
 - Redis-enabled redirects had **57.7% lower average latency**.
@@ -292,6 +317,13 @@ Use the same `BASE_URL`, `SLUG`, k6 script, workload, machine, and service confi
 These are preliminary results from one run per configuration. They suggest Redis improves redirect performance in this local environment, but repeated runs are needed to establish how consistently the improvement occurs. Results may differ on other hardware and in production.
 
 Raw k6 summaries are saved under `results/` for reference. Do not commit secrets or machine-specific artifacts unnecessarily.
+
+log showing hitting of cache:
+<p align="center">
+  <img src="assets/chache hit.png"
+       alt="URL Shortener Dashboard"
+       width="850">
+</p>
 
 ## Security Notes
 
@@ -305,4 +337,3 @@ Raw k6 summaries are saved under `results/` for reference. Do not commit secrets
 
 Deployment and CI/CD are future improvements. Before production deployment, configure production MongoDB and Redis URLs, unique JWT secrets, `APP_URL`, `FRONTEND_URL`, CORS, secure cookie settings, and HTTPS.
 
-.
