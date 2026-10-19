@@ -129,6 +129,11 @@ Check backend health:
 
 ```powershell
 Invoke-RestMethod http://localhost:3000/health
+
+```
+
+```powershell
+curl -i http://localhost:3000/health
 ```
 
 Expected response:
@@ -145,7 +150,7 @@ Expected response:
 
 - **Create (`POST /api/create`, `POST /api/create/custom`):** Authentication is optional. Anonymous users can create links; authenticated users can associate links with their accounts.
 - **Redirect (`GET /:id`):** Public. Anyone with a valid short URL can access its destination.
-- **List, edit, and delete:** Require authentication and should operate only on URLs owned by the authenticated user.
+- **List, edit, and delete:** Require authentication. The backend enforces ownership checks so users can manage only URLs associated with their accounts.
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -229,9 +234,9 @@ The current suite contains **8 tests across 3 test files**:
 
 | Test file | Tests | Coverage |
 |---|---:|---|
-| `test/validation.test.js` | 2 | URL validation |
-| `test/urlSafety.test.js` | 4 | Domain and private-network safety checks |
-| `test/urlApi.test.js` | 2 | Health endpoint and invalid-slug handling |
+| `Backend/test/validation.test.js` | 2 | URL validation |
+| `Backend/test/urlSafety.test.js` | 4 | Domain and private-network safety checks |
+| `Backend/test/urlApi.test.js` | 2 | Health endpoint and invalid-slug handling |
 | **Total** | **8** | |
 
 Successful URL creation and database-backed redirect integration tests are not yet covered by the automated suite. Add those against isolated test services before relying on the application for production traffic.
@@ -240,14 +245,14 @@ Successful URL creation and database-backed redirect integration tests are not y
 
 The load-test script is located at `loadtest/redirect.js`. It exercises a real short URL and checks that redirects return HTTP `302` with the expected `Location` header.
 
-The current workload ramps up to 50 virtual users over approximately 65 seconds. The script checks:
+The benchmark uses 5 virtual users over 30 seconds, with a 1-second pause between iterations. The script checks:
 
 - HTTP failure rate below 1%
 - p95 response latency below 500 ms
 - Zero redirect-check failures
 <p align="center">
   <img src="assets/k6.png"
-       alt="URL Shortener Dashboard"
+       alt="Demonstration of k6"
        width="850">
 </p>
 
@@ -342,5 +347,16 @@ Raw k6 summaries are saved under `results/` for reference. Do not commit secrets
 
 ## Deployment
 
-Deployment and CI/CD are future improvements. Before production deployment, configure production MongoDB and Redis URLs, unique JWT secrets, `APP_URL`, `FRONTEND_URL`, CORS, secure cookie settings, and HTTPS.
+The application is deployed using the following services:
+
+- **Frontend:** [Vercel](https://url-toyes.vercel.app/)
+- **Backend API:** [Render](https://url-shortener-7806.onrender.com/health)
+- **Database:** MongoDB — configured through the backend environment variables.
+- **Cache:** Redis — configured through the backend environment variables.
+
+The backend depends on the configured MongoDB and Redis instances. Set the appropriate connection URLs, JWT secrets, `APP_URL`, and `FRONTEND_URL` in the deployment environment. Never commit production credentials to the repository.
+
+**Note:** If the backend runs on Render's free tier, the service may spin down after inactivity, causing a delay on the first request.
+
+Continuous integration and automated deployment can be added as future improvements.
 
