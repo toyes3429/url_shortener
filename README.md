@@ -7,6 +7,14 @@ A full-stack URL shortener built with React, Express, MongoDB, and Redis. It sup
        width="850">
 </p>
 
+## Live Demo
+
+**Try it here:** [URL Shortener — Live Application](https://url-toyes.vercel.app/)
+
+- **Frontend:** https://url-toyes.vercel.app/
+- **Backend Health Check:** https://url-shortener-7806.onrender.com/health
+- **GitHub Repository:** https://github.com/toyes3429/url_shortener
+
 ## Features
 
 - Cookie-based authentication with access and refresh tokens
